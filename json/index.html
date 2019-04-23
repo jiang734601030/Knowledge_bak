@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div>json数据
+    </div>
+    <button id="bt1">请求本地json</button>
+</body>
+
+<script src="http://code.jquery.com/jquery-1.8.0.min.js"></script>
+<script src="index.js"></script>
+<!--jsonp中 需要注意的是    
+     <script  src="car.json?callback=train"></script>    
+ src ? 之前为文件地址，? 之后为回调函数callback名称，    
+回调函数可以简写为 cb ,  然后 回调函数 名称要与  JSON文件中的名称一致    
+可以在 对应的文件名中看下，如，car.json?callback=indexDemo,index.json的 函数名为  indexDemo-->    
+<script type="text/javascript" src="index.json?callback=indexDemo"></script>
+
+
+   
+</html>
