@@ -116,3 +116,112 @@
 //         'xml-loader'
 //     ]
 //     }
+
+
+
+//第三部分 管理输出
+// 1.设定 HtmlWebpackPlugin
+//npm install --save-dev html-webpack-plugin
+
+//const HtmlWebpackPlugin = require('html-webpack-plugin');
+//   plugins: [
+//         new HtmlWebpackPlugin({
+//           title: 'Output Management'
+//         })
+//      ],
+
+// 如果你在代码编辑器中将 index.html 打开，
+// 你就会看到 HtmlWebpackPlugin 创建了一个全新的文件，所有的 bundle 会自动添加到 html 中。
+
+// 2.清理 /dist 文件夹
+
+// 你可能已经注意到，由于过去的指南和代码示例遗留下来，导致我们的 /dist 文件夹相当杂乱。
+// webpack 会生成文件，然后将这些文件放置在 /dist 文件夹中，
+// 但是 webpack 无法追踪到哪些文件是实际在项目中用到的。
+// 通常，在每次构建前清理 /dist 文件夹，是比较推荐的做法，因此只会生成用到的文件。让我们完成这个需求。
+//clean-webpack-plugin 是一个比较普及的管理插件，让我们安装和配置下。
+
+//npm install clean-webpack-plugin --save-dev
+
+//const CleanWebpackPlugin = require('clean-webpack-plugin');
+//plugins 中 new CleanWebpackPlugin(),
+
+
+//第四部分  开发
+
+//1.使用 source map （不用下载）  追踪到错误和警告在源代码中的原始位置
+//webpack.config.js文件中   module.exports 配置 inline-source-map
+// devtool: 'inline-source-map',
+
+
+//2.选择一个开发工具
+
+// 1） webpack's Watch Mode 使用观察模式
+
+// "scripts": {
+//    "watch": "webpack --watch",
+//   },
+//npm run watch 就可以监听，不用每次改动就去npm run build ，但是不能实时加载浏览器
+
+// 2） webpack-dev-server
+//webpack-dev-server 为你提供了一个简单的 web 服务器，并且能够实时重新加载(live reloading)。让我们设置
+//npm install --save-dev webpack-dev-server 
+
+//直接用此命令报错npm install webpack-dev-server --save-dev  ，
+//先用npm cache clean --force 再执行npm install webpack-dev-server --save-dev可正常安装
+
+// webpack.config.js
+//   devServer: {
+//     contentBase: './dist'
+//   },
+
+//package.json
+// "scripts": {
+//"start": "webpack-dev-server --open",
+//   },
+  
+ //npm run  start 可以启动浏览器 服务http://localhost:8080/  ，现在编辑会自动在浏览器刷新
+
+// 3） webpack-dev-middleware
+// webpack-dev-middleware 是一个容器(wrapper)，它可以把 webpack 处理后的文件传递给一个服务器(server)。
+//  webpack-dev-server 在内部使用了它，同时，它也可以作为一个单独的包来使用，
+//  以便进行更多自定义设置来实现更多的需求。
+// 接下来是一个 webpack-dev-middleware 配合 express server 的示例。
+
+// 首先，安装 express 和 webpack-dev-middleware：
+// npm install --save-dev express webpack-dev-middleware
+
+// webpack.config.js
+// output: {
+//     filename: '[name].bundle.js',
+//     path: path.resolve(__dirname, 'dist'),
+//     publicPath: '/'  添加这个
+//   }
+
+//添加server.js文件  以下为内容
+const express = require('express');
+const webpack = require('webpack');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+
+const app = express();
+const config = require('./webpack.config.js');
+const compiler = webpack(config);
+
+// Tell express to use the webpack-dev-middleware and use the webpack.config.js
+// configuration file as a base.
+app.use(webpackDevMiddleware(compiler, {
+  publicPath: config.output.publicPath
+}));
+
+// Serve the files on port 3000.
+app.listen(3000, function () {
+  console.log('Example app listening on port 3000!\n');
+});
+
+//package.json 文件
+// "scripts": {  
+//      "server": "node server.js",
+//   },
+
+//执行 npm run server  不会自动打开网页 也不会自动刷新，需手动刷新
+//访问http://localhost:3000  
