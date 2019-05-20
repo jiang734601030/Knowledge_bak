@@ -6,9 +6,26 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 </head>
+
+<script src="./node_modules/vue/dist/vue.min.js"></script>
 <body>
-    <div>vuejs
+    <div>vuejs</div>
+    <div id="app">
+        <button v-on:click="console">da</button>
+        <label><input type="radio" value="male" v-model="gender "> 男 </lable>
+            <label><input type="radio" value="female" v-model="gender "> 女 </lable>
+            <p>{{ gender }}</p>
+
+            <input type="checkbox" value="1" v-model="multiSelected">
+            <input type="checkbox" value="11"v-model="multiSelected">
+            <input type="checkbox" value="111" v-model="multiSelected">
+            <p>{{checked}}</p>
+            <p>{{multiSelected.join('|') }}</p>
     </div>
+<div>
+    
+</div>
 </body>
 <script src="index.js"></script>
+
 </html>

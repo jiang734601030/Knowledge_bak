@@ -225,3 +225,6 @@ app.listen(3000, function () {
 
 //执行 npm run server  不会自动打开网页 也不会自动刷新，需手动刷新
 //访问http://localhost:3000  
+
+
+//第五部分 模块热替换
